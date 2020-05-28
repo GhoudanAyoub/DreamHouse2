@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_booked"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/home"
         android:title="@string/post" />
 
     <item
