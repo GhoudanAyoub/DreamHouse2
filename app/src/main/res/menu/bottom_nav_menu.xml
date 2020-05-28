@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@android:string/search_go" />
+
+    <item
+        android:id="@+id/navigation_booked"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/post" />
+
+    <item
+        android:id="@+id/navigation_favor"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:title="@string/favorite" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person_outline_black_24dp"
+        android:title="@string/profile" />
+
+</menu>
