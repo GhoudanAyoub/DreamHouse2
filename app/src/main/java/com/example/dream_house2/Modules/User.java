@@ -7,15 +7,25 @@ public class User {
     private String password;
     private String name;
     private Uri image;
+    private String phone;
 
     public User() {
     }
 
-    public User(String gmail, String password, String name, Uri image) {
+    public User(String gmail, String password, String name, Uri image, String phone) {
         this.gmail = gmail;
         this.password = password;
         this.name = name;
         this.image = image;
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getGmail() {

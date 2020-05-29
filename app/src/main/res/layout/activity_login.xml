@@ -61,6 +61,15 @@
             app:boxBackgroundMode="outline"
             app:passwordToggleEnabled="false"
             app:startIconDrawable="@drawable/user"
+            android:inputType="textEmailAddress"
+            android:textColor="#FFFFFF"
+            app:boxStrokeColor="@color/BaseColor"
+            app:boxStrokeWidth="2dp"
+            app:errorEnabled="true"
+            app:errorTextColor="#FF0000"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#FFFFFF"
             app:startIconTint="@color/BaseColor">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -68,6 +77,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/catamaran"
                 android:hint="example@email.com"
+                android:backgroundTint="@android:color/darker_gray"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -83,6 +93,14 @@
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/BaseColor"
             app:startIconDrawable="@drawable/lock"
+            android:textColor="#FFFFFF"
+            app:boxStrokeColor="@color/BaseColor"
+            app:boxStrokeWidth="2dp"
+            app:errorEnabled="true"
+            app:errorTextColor="#FF0000"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:hintTextColor="#FFFFFF"
             app:startIconTint="@color/BaseColor">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -90,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/catamaran"
                 android:hint="passowrd"
+                android:backgroundTint="@android:color/darker_gray"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>

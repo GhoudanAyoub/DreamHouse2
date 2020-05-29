@@ -22,9 +22,6 @@
         <action
             android:id="@+id/action_navigation_home_to_fullInfo"
             app:destination="@id/navigation_fullInfo" />
-        <action
-            android:id="@+id/action_navigation_home_to_filters2"
-            app:destination="@id/filters" />
     </fragment>
 
     <fragment
@@ -55,9 +52,4 @@
         android:name="com.example.dream_house2.ui.GlobalInfo.FullInfo"
         android:label="full_info_fragment"
         tools:layout="@layout/full_info_fragment" />
-    <activity
-        android:id="@+id/filters"
-        android:name="com.example.dream_house2.ui.filters.filters"
-        android:label="activity_filters"
-        tools:layout="@layout/activity_filters" />
 </navigation>

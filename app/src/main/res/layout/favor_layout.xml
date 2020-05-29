@@ -42,11 +42,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:tint="@color/BaseColor"
                 app:backgroundTint="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:srcCompat="@drawable/ic_favorite_black_24dp"
+                app:srcCompat="@drawable/ic_favorite_border_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
             <LinearLayout
                 android:id="@+id/linearLayout3"
