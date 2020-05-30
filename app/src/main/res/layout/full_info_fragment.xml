@@ -95,7 +95,7 @@
                 android:layout_height="match_parent">
 
                 <RatingBar
-                    android:id="@+id/ratingBar2"
+                    android:id="@+id/favor_rate"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -107,7 +107,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/owner_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/catamaran"
@@ -122,7 +122,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/favor_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/catamaran"
@@ -137,7 +137,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/favor_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/catamaran"
@@ -147,7 +147,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/favor_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/catamaran"

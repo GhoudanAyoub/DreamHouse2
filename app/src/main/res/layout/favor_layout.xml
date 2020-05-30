@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/favor_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -37,18 +37,20 @@
                 tools:ignore="VectorDrawableCompat" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton"
+                android:id="@+id/favor_floatingActionButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:tint="@color/BaseColor"
                 app:backgroundTint="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:srcCompat="@drawable/ic_favorite_border_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/favor_imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favor_imageView"
+                app:srcCompat="@drawable/ic_favorite_black_24dp"
                 tools:ignore="VectorDrawableCompat" />
+
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 android:layout_width="0dp"
@@ -69,7 +71,7 @@
                         android:layout_height="match_parent">
 
                         <RatingBar
-                            android:id="@+id/ratingBar2"
+                            android:id="@+id/favor_rate"
                             style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -81,7 +83,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/owner_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/catamaran"
@@ -96,7 +98,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/favor_city"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/catamaran"
@@ -111,7 +113,7 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/favor_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/catamaran"
@@ -121,7 +123,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/favor_room"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/catamaran"
