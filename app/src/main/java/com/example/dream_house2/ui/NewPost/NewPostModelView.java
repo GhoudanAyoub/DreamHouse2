@@ -14,18 +14,19 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-class NewPostModelView extends ViewModel {
+public class NewPostModelView extends ViewModel {
 
     private MutableLiveData<String> mutableLiveData ;
     private List<String> ImageUri = new ArrayList<>();
 
-    LiveData<String> getMutableLiveData() {
+    public LiveData<String> getMutableLiveData() {
         if (mutableLiveData==null){
             mutableLiveData = new MutableLiveData<>();
         }
         return mutableLiveData;
     }
-    void upload(String city, String price, String room, String desc, String type, ArrayList<Uri> ImageList) {
+
+    public void upload(String city, String price, String room, String desc, String type, ArrayList<Uri> ImageList) {
         final StorageReference ImageFolder =  FireBaseClient.GetInstance().getFirebaseStorage()
                 .getReference().child(common.Image_Documment_Storage);
 

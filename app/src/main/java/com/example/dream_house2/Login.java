@@ -73,7 +73,8 @@ public class Login extends AppCompatActivity {
         if (!validateForm())return;
         try {
             FireBaseClient.GetInstance().getFirebaseAuth()
-                    .signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    .signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     startActivity(new Intent(getApplicationContext(), Base_Home.class));
                     Toast.makeText(getApplicationContext(), "Welcome\uD83D\uDE04", Toast.LENGTH_SHORT).show();

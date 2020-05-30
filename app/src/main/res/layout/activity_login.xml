@@ -106,9 +106,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/darker_gray"
                 android:fontFamily="@font/catamaran"
                 android:hint="passowrd"
-                android:backgroundTint="@android:color/darker_gray"
+                android:inputType="textPassword"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>

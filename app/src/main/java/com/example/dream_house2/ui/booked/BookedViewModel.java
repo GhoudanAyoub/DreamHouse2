@@ -15,15 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-class BookedViewModel extends ViewModel {
+public class BookedViewModel extends ViewModel {
     private MutableLiveData<List<Post>> postMutableLiveData ;
     private List<Post> postList = new ArrayList<>();
-    LiveData<List<Post>> getMyPostMutableLiveData() {
+
+    public LiveData<List<Post>> getMyPostMutableLiveData() {
         if (postMutableLiveData==null )postMutableLiveData=new MutableLiveData<>();
         return postMutableLiveData;
     }
 
-    void GetMyPosts(){
+    public void GetMyPosts() {
         FireBaseClient.GetInstance().getFirebaseFirestore()
                 .collection(common.Post_DataBase_Table)
                 .get()

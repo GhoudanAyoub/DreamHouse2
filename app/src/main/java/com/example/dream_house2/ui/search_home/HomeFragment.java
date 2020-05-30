@@ -18,9 +18,9 @@ import com.example.dream_house2.ui.filters.filters;
 public class HomeFragment extends Fragment {
 
     private postAdapter postAdapter;
-
+    HomeViewModel homeViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         homeViewModel.GetPosts();
 

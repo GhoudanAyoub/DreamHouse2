@@ -28,8 +28,6 @@ public class FavorFragment extends Fragment {
         favoritesAdapter = new favoritesAdapter(getActivity());
         RecyclerView RecycleViewFavorites = root.findViewById(R.id.recycleviewfavorites);
 
-        root.findViewById(R.id.searchButton).setOnClickListener(v -> startActivity(new Intent(getActivity(), filters.class)));
-
         RecycleViewFavorites.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         RecycleViewFavorites.setHasFixedSize(true);
         RecycleViewFavorites.setAdapter(favoritesAdapter);

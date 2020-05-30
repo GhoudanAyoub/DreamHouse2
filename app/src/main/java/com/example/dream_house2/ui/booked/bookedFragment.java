@@ -17,10 +17,10 @@ import com.example.dream_house2.R;
 public class bookedFragment extends Fragment {
 
     private postAdapter MyPostAdapter;
-
+    BookedViewModel mViewModel;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        BookedViewModel mViewModel = ViewModelProviders.of(this).get(BookedViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(BookedViewModel.class);
         View root = inflater.inflate(R.layout.booked_fragment, container, false);
         mViewModel.GetMyPosts();
         MyPostAdapter = new postAdapter(getActivity(),root);

@@ -13,15 +13,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Objects;
 
-class ProfileViewModel extends ViewModel {
+public class ProfileViewModel extends ViewModel {
     private MutableLiveData<User> UserMutableLiveData;
 
-    LiveData<User> getUsersMutableLiveData() {
+    public LiveData<User> getUsersMutableLiveData() {
         if (UserMutableLiveData == null) UserMutableLiveData = new MutableLiveData<>();
         return UserMutableLiveData;
     }
 
-    void GetUsers() {
+    public void GetUsers() {
         FireBaseClient.GetInstance().getFirebaseFirestore()
                 .collection(common.Users_DataBase_Table)
                 .get()
