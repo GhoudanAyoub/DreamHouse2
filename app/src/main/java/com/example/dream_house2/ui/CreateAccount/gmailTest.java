@@ -1,4 +1,4 @@
-package com.example.dream_house2.ui.CreateAccount.Step2;
+package com.example.dream_house2.ui.CreateAccount;
 
 import android.content.Intent;
 import android.os.Bundle;

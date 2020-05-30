@@ -1,4 +1,4 @@
-package com.example.dream_house2.ui.CreateAccount.Step2;
+package com.example.dream_house2.ui.CreateAccount;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
