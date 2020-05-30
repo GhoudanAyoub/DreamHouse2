@@ -113,6 +113,7 @@
                 android:textSize="12sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailedittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -158,6 +159,7 @@
                 android:textSize="12sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneedittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -203,6 +205,7 @@
                 android:textSize="12sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passedittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -236,7 +239,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -251,6 +254,15 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_edit_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_image"
+            app:layout_constraintEnd_toEndOf="@+id/profile_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

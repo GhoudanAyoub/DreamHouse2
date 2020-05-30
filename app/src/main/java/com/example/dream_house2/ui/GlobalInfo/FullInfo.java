@@ -2,6 +2,7 @@ package com.example.dream_house2.ui.GlobalInfo;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,16 @@ import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jakewharton.rxbinding3.view.RxView;
+
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import kotlin.Unit;
 
 public class FullInfo extends Fragment {
 
@@ -26,6 +37,7 @@ public class FullInfo extends Fragment {
     private FloatingActionButton bookNow, favorButton;
     private RatingBar fullinfor_rate;
     private TextView fullinfo_owner_home, fullinfo_city, fullinfo_price, fullinfo_room, fullinfo_desc;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -48,10 +60,32 @@ public class FullInfo extends Fragment {
         fullinfo_room.setText(post.getRoom() + " guests max");
         fullinfo_desc.setText(post.getDescription());
 
-        favorButton.setOnClickListener(v -> FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Favor_DataBase_Table)
-                .document(post.getPost_owner())
-                .set(post));
+        bookNow.setOnClickListener(v->{});
+        RxView.clicks(favorButton)
+                .throttleFirst(2, TimeUnit.HOURS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Unit>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(Unit unit) {
+                        FireBaseClient.GetInstance().getFirebaseFirestore()
+                                .collection(common.Favor_DataBase_Table)
+                                .document(post.getPost_owner())
+                                .set(post);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("FullInfo", Objects.requireNonNull(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onComplete() { }
+                });
         return root;
     }
 
