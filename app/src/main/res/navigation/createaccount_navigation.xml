@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/createaccount_navigation"
+    app:startDestination="@id/phoneTest">
+
+    <fragment
+        android:id="@+id/phoneTest"
+        android:name="com.example.dream_house2.ui.CreateAccount.Step1.phoneTest"
+        android:label="phone_test_fragment"
+        tools:layout="@layout/phone_test_fragment">
+        <action
+            android:id="@+id/action_phoneTest_to_gmailTest"
+            app:destination="@id/gmailTest" />
+    </fragment>
+    <fragment
+        android:id="@+id/gmailTest"
+        android:name="com.example.dream_house2.ui.CreateAccount.Step2.gmailTest"
+        android:label="gmail_test_fragment"
+        tools:layout="@layout/gmail_test_fragment" />
+</navigation>

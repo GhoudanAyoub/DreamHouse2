@@ -23,7 +23,7 @@ class ProfileViewModel extends ViewModel {
 
     void GetUsers() {
         FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Post_DataBase_Table)
+                .collection(common.Users_DataBase_Table)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

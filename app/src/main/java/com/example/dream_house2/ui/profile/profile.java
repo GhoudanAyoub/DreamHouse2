@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.dream_house2.R;
+import com.example.dream_house2.common.common;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 
@@ -44,10 +45,13 @@ public class profile extends Fragment {
         views(root);
 
         mViewModel.getUsersMutableLiveData().observe(requireActivity(), users -> {
-            name.setText(users.getName());
-            date.setText("Since " + users.getDate());
-            Objects.requireNonNull(email.getEditText()).setText(users.getGmail());
-            Objects.requireNonNull(phone.getEditText()).setText(users.getPhone());
+            if (users.getName().equals(common.Current_Client)){
+                name.setText(users.getName());
+                date.setText("Since " + users.getDate());
+                Objects.requireNonNull(email.getEditText()).setText(users.getGmail());
+                Objects.requireNonNull(phone.getEditText()).setText(users.getPhone());
+                Objects.requireNonNull(password.getEditText()).setText(users.getPassword());
+            }
         });
 
         RxView.clicks(root.findViewById(R.id.save))

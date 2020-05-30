@@ -10,6 +10,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -57,8 +58,9 @@ dependencies {
 
 //AndroidBAsic
     implementation 'com.android.support:recyclerview-v7:29.0.0'
+    implementation 'com.hbb20:ccp:2.1.9'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
-
+    implementation 'com.android.support:multidex:1.0.3'
     //circleImage
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
