@@ -76,9 +76,9 @@ public class Login extends AppCompatActivity {
                     .signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     startActivity(new Intent(getApplicationContext(), Base_Home.class));
-                    Toast.makeText(getApplicationContext(), "مرحبا بكم\uD83D\uDE04", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Welcome\uD83D\uDE04", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "خطء في القن السري أو البريد الاكتروني", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Email Or Password Error", Toast.LENGTH_LONG).show();
                 }
             });
         } catch (Exception ex) {
@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
 
         String email1 = Objects.requireNonNull(email.getEditText()).getText().toString();
         if (TextUtils.isEmpty(email1)) {
-            email.setError("املأ الفراغ من فضلك!!");
+            email.setError("obligatory");
             valid = false;
         } else {
             email.setError(null);
@@ -98,7 +98,7 @@ public class Login extends AppCompatActivity {
 
         String password1 = Objects.requireNonNull(password.getEditText()).getText().toString();
         if (TextUtils.isEmpty(password1)) {
-            password.setError("املأ الفراغ من فضلك!!");
+            password.setError("obligatory");
             valid = false;
         } else {
             password.setError(null);

@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 
 public class Base_Home extends AppCompatActivity {
 
@@ -17,6 +18,7 @@ public class Base_Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base__home);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        FirebaseApp.initializeApp(getApplicationContext());
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(

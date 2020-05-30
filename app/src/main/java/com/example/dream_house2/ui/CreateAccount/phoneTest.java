@@ -78,6 +78,7 @@ public class phoneTest extends Fragment {
         root.findViewById(R.id.NumberNext).setOnClickListener(v4 -> verifySignInCode());
 
         checkForSmsPermission();
+        disableVerificationButton();
         enableLayout();
 
         return root;
