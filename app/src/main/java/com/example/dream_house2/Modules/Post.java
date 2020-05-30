@@ -1,6 +1,9 @@
 package com.example.dream_house2.Modules;
 
-public class Post {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Post implements Parcelable {
     private String post_owner;
     private String city;
     private String price;
@@ -86,4 +89,46 @@ public class Post {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    protected Post(Parcel in) {
+        post_owner = in.readString();
+        city = in.readString();
+        price = in.readString();
+        room = in.readString();
+        rate = in.readInt();
+        images = in.readString();
+        description = in.readString();
+        home_type = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(post_owner);
+        dest.writeString(city);
+        dest.writeString(price);
+        dest.writeString(room);
+        dest.writeInt(rate);
+        dest.writeString(images);
+        dest.writeString(description);
+        dest.writeString(home_type);
+    }
+
 }

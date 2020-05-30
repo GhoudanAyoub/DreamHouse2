@@ -9,28 +9,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dream_house2.Adapters.postAdapter;
 import com.example.dream_house2.R;
-
 public class bookedFragment extends Fragment {
 
-    private BookedViewModel mViewModel;
-
-    public static bookedFragment newInstance() {
-        return new bookedFragment();
-    }
+    private postAdapter MyPostAdapter;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.booked_fragment, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        BookedViewModel mViewModel = ViewModelProviders.of(this).get(BookedViewModel.class);
+        View root = inflater.inflate(R.layout.booked_fragment, container, false);
+        mViewModel.GetMyPosts();
+        MyPostAdapter = new postAdapter(getActivity(),root);
+        RecyclerView RecycleViewBooked = root.findViewById(R.id.recycleviewbooked);
+        RecycleViewBooked.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        RecycleViewBooked.setHasFixedSize(true);
+        RecycleViewBooked.setAdapter(MyPostAdapter);
+        mViewModel.getMyPostMutableLiveData().observe(getViewLifecycleOwner(), post -> MyPostAdapter.setList(post));
+        return  root;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(BookedViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
 }

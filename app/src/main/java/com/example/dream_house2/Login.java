@@ -15,7 +15,6 @@ import com.google.firebase.FirebaseApp;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.Objects;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
@@ -67,7 +66,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if ((FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser())!=null){
+        if (FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser()!=null){
             startActivity(new Intent(getApplicationContext(), Base_Home.class)); }
     }
     private void LoginUser(final String email, final String password) {
@@ -107,9 +106,7 @@ public class Login extends AppCompatActivity {
         return valid;
     }
     @Override
-    public void onBackPressed() {
-        boolean shouldAllowBack = false;
-        if (shouldAllowBack) { Toast.makeText(getApplicationContext(), "المرجو التسجيل!!!", Toast.LENGTH_LONG).show(); } }
+    public void onBackPressed() { }
     @Override
     protected void onDestroy() { super.onDestroy();compositeDisposable.clear();}
 
