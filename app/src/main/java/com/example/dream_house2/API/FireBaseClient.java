@@ -2,13 +2,22 @@ package com.example.dream_house2.API;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class FireBaseClient {
     private static FireBaseClient fireBaseClient;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseStorage firebaseStorage;
 
     private FireBaseClient() {
+    }
+
+    public FirebaseStorage getFirebaseStorage() {
+        if (firebaseStorage == null) {
+            firebaseStorage = FirebaseStorage.getInstance();
+        }
+        return firebaseStorage;
     }
 
     public static FireBaseClient GetInstance() {

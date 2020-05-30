@@ -1,6 +1,7 @@
 package com.example.dream_house2.ui.profile;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
+import com.example.dream_house2.ui.NewPost.NewPost;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 
@@ -54,6 +56,7 @@ public class profile extends Fragment {
             }
         });
 
+        root.findViewById(R.id.imageButton).setOnClickListener(v->startActivity(new Intent(requireActivity(), NewPost.class)));
         RxView.clicks(root.findViewById(R.id.save))
                 .throttleFirst(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
