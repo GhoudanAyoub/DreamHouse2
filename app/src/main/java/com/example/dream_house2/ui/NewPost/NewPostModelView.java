@@ -12,12 +12,11 @@ import com.example.dream_house2.common.common;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NewPostModelView extends ViewModel {
 
     private MutableLiveData<String> mutableLiveData ;
-    private List<String> ImageUri = new ArrayList<>();
+    private ArrayList<String> ImageUri = new ArrayList<>();
 
     public LiveData<String> getMutableLiveData() {
         if (mutableLiveData==null){
@@ -36,13 +35,18 @@ public class NewPostModelView extends ViewModel {
             imagename.putFile(ImageList.get(uploads)).addOnSuccessListener(taskSnapshot ->
                     imagename.getDownloadUrl().addOnSuccessListener(uri -> {
                         String url = String.valueOf(uri);
-                        ImageUri.add(url);
+                        ImageUri.add(url + "/");
                     }));
         }
         Post post = new Post(common.Current_Client,city,price,room, null,desc,type,ImageUri);
         SaveData(post);
     }
     private void SaveData(Post post){
+        FireBaseClient.GetInstance().getFirebaseDatabase()
+                .getReference(common.Post_DataBase_Table)
+                .push()
+                .setValue(post)
+                .addOnSuccessListener(aVoid -> mutableLiveData.setValue("Done"));
         FireBaseClient.GetInstance().getFirebaseFirestore()
                 .collection(common.Post_DataBase_Table)
                 .document()

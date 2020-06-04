@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "2363587522-ksquauft7l2t0e7v1eor7cv4dbep23ak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dream_house2",
+            "certificate_hash": "69350b9c51871821b0a21875cc9e3b4f83173771"
+          }
+        },
+        {
           "client_id": "2363587522-4chc3jkmvjruvn9p7rph6o6kp8gd58rb.apps.googleusercontent.com",
           "client_type": 3
         }

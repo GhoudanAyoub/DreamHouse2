@@ -167,15 +167,18 @@ public class NewPost extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Image_Request && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            int count = Objects.requireNonNull(data.getClipData()).getItemCount();
-            int CurrentImageSelect = 0;
-            while (CurrentImageSelect < count) {
-                Uri ImageUri = data.getClipData().getItemAt(CurrentImageSelect).getUri();
-                ImageList.add(ImageUri);
-                CurrentImageSelect = CurrentImageSelect + 1;
+        try {
+            if (requestCode == Image_Request && resultCode == RESULT_OK && data != null && data.getData() != null) {
+                int count = Objects.requireNonNull(data.getClipData()).getItemCount();
+                int CurrentImageSelect = 0;
+                while (CurrentImageSelect < count) {
+                    Uri ImageUri = data.getClipData().getItemAt(CurrentImageSelect).getUri();
+                    ImageList.add(ImageUri);
+                    CurrentImageSelect = CurrentImageSelect + 1;
+                }
             }
+        } catch (Exception e) {
+            Log.e("AddPost", e.getMessage());
         }
     }
 

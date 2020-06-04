@@ -35,7 +35,6 @@ public class Login extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         FirebaseApp.initializeApp(getApplicationContext());
-
         email = findViewById(R.id.gmailEditText);
         password = findViewById(R.id.passEditText);
 
@@ -110,5 +109,6 @@ public class Login extends AppCompatActivity {
     public void onBackPressed() { }
     @Override
     protected void onDestroy() { super.onDestroy();compositeDisposable.clear();}
+
 
 }

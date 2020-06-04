@@ -72,6 +72,10 @@ public class FullInfo extends Fragment {
 
                     @Override
                     public void onNext(Unit unit) {
+                        FireBaseClient.GetInstance().getFirebaseDatabase()
+                                .getReference(common.Favor_DataBase_Table)
+                                .push()
+                                .setValue(post);
                         FireBaseClient.GetInstance().getFirebaseFirestore()
                                 .collection(common.Favor_DataBase_Table)
                                 .document(post.getPost_owner())

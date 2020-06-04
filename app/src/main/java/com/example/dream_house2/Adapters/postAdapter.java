@@ -15,10 +15,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.R;
-import com.example.dream_house2.common.common;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -48,7 +46,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHol
         String[] url = post.getImages().split("/");
         Glide
                 .with(context)
-                .load(url)
+                .load(url[1])
                 .centerCrop()
                 .into(holder.post_imageView);
         holder.post_rate.setRating(post.getRate());

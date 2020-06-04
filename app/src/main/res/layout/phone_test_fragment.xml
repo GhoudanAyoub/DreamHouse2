@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CreateAccount.Step1.phoneTest">
+    tools:context=".ui.CreateAccount.phoneTest">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -316,6 +316,7 @@
 
     </LinearLayout>
 
+
     <Button
         android:id="@+id/sendButton"
         android:layout_width="351dp"
@@ -330,9 +331,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <Button
         android:id="@+id/NumberNext"
@@ -341,7 +340,7 @@
         android:layout_margin="28dp"
         android:background="@drawable/buttoncolor"
         android:fontFamily="@font/catamaran_bold"
-        android:text="NEXT"
+        android:text="DONE"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:textStyle="bold"

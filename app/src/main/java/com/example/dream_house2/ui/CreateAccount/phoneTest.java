@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,24 +36,7 @@ public class phoneTest extends Fragment {
     private CountryCodePicker countryCodePicker;
     private View root;
     private String Code;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(@NotNull PhoneAuthCredential phoneAuthCredential) {
-            disableLayout();
-            enableVerificationButton();
-            Code = phoneAuthCredential.getSmsCode();
-        }
 
-        @Override
-        public void onVerificationFailed(@NotNull FirebaseException e) {
-            Toast.makeText(getActivity(), "نواجه مشكل في التواصل مع هاتفكم\uD83D\uDE14", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onCodeSent(@NotNull String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-        }
-    };
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,12 +99,15 @@ public class phoneTest extends Fragment {
         } else {
             editText.setError(null);
         }
+        /*
         if (email1.length() != 9) {
             editText.setError("ضع رقم هاتف صحيح من فضلك!!");
             valid = false;
         } else {
             editText.setError(null);
         }
+
+         */
         return valid;
     }
 
@@ -210,7 +197,26 @@ public class phoneTest extends Fragment {
                 30,
                 TimeUnit.SECONDS,
                 requireActivity(),
-                mCallbacks);
+                new PhoneAuthProvider
+                        .OnVerificationStateChangedCallbacks() {
+                    @Override
+                    public void onVerificationCompleted(@NotNull PhoneAuthCredential phoneAuthCredential) {
+                        disableLayout();
+                        enableVerificationButton();
+                        Code = phoneAuthCredential.getSmsCode();
+                    }
+
+                    @Override
+                    public void onVerificationFailed(@NotNull FirebaseException e) {
+                        Toast.makeText(getActivity(), "نواجه مشكل في التواصل مع هاتفكم\uD83D\uDE14", Toast.LENGTH_SHORT).show();
+                        Log.d("TAG", "onVerificationFailed: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onCodeSent(@NotNull String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                        super.onCodeSent(s, forceResendingToken);
+                    }
+                });
     }
 
     private void verifySignInCode() {
