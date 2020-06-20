@@ -1,19 +1,18 @@
 package com.example.dream_house2.Modules;
 
-import android.net.Uri;
 
 public class User {
     private String gmail;
     private String password;
     private String name;
-    private Uri image;
+    private String image;
     private String phone;
     private String date;
 
     public User() {
     }
 
-    public User(String gmail, String password, String name, Uri image, String phone, String date) {
+    public User(String gmail, String password, String name, String image, String phone, String date) {
         this.gmail = gmail;
         this.password = password;
         this.name = name;
@@ -62,11 +61,11 @@ public class User {
         this.name = name;
     }
 
-    public Uri getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Uri image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

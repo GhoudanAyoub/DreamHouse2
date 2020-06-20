@@ -13,11 +13,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.example.dream_house2.API.FireBaseClient;
+import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.R;
+import com.example.dream_house2.common.common;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.StorageReference;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.Objects;
@@ -37,7 +40,6 @@ public class NewPost extends AppCompatActivity {
     private SeekBar priceadd, roomadd;
     private RadioGroup radioGroup;
     private String city, desc, price, room, type;
-    private NewPostModelView newPostModelView;
     private ProgressDialog progressDialog;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ImageView imageSwitcher;
@@ -47,43 +49,8 @@ public class NewPost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
-        newPostModelView = ViewModelProviders.of(this).get(NewPostModelView.class);
-        views();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Uploading ..........");
-        imageSwitcher = findViewById(R.id.pager);
 
-        findViewById(R.id.imageButton2).setOnClickListener(b -> openImageFile());
-        newPostModelView.getMutableLiveData().observe(this, s -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show());
-        RxView.clicks(findViewById(R.id.add))
-                .throttleFirst(5, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Unit>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
 
-                    @Override
-                    public void onNext(Unit unit) {
-                        Toast.makeText(getApplicationContext(), "This will take several times ...", Toast.LENGTH_SHORT).show();
-                        progressDialog.show();
-                        SaveData();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("AddPost", Objects.requireNonNull(e.getMessage()));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        progressDialog.dismiss();
-                    }
-                });
-    }
-
-    private void views() {
         textView21 = findViewById(R.id.textView21);
         textView22 = findViewById(R.id.textView22);
         cityadd = findViewById(R.id.cityadd);
@@ -95,7 +62,7 @@ public class NewPost extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 price = String.valueOf(progress);
-                textView21.setText(price);
+                textView21.setText(price + " DH");
             }
 
             @Override
@@ -140,7 +107,41 @@ public class NewPost extends AppCompatActivity {
                     break;
             }
         });
+
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Uploading ..........");
+        imageSwitcher = findViewById(R.id.pager);
+
+        findViewById(R.id.imageButton2).setOnClickListener(b -> openImageFile());
+        RxView.clicks(findViewById(R.id.add))
+                .throttleFirst(5, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Unit>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(Unit unit) {
+                        Toast.makeText(getApplicationContext(), "This will take several times ...", Toast.LENGTH_SHORT).show();
+                        progressDialog.show();
+                        upload(city, price, room, desc, type);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("AddPost", Objects.requireNonNull(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        progressDialog.dismiss();
+                    }
+                });
     }
+
 
     private void openImageFile() {
         Intent galinten = new Intent();
@@ -162,7 +163,36 @@ public class NewPost extends AppCompatActivity {
         }
     }
 
-    private void SaveData() {
-        newPostModelView.upload(city, price, room, desc, type, ImageList);
+    public void upload(String city, String price, String room, String desc, String type) {
+        final StorageReference ImageFolder = FireBaseClient.GetInstance().getFirebaseStorage()
+                .getReference()
+                .child(common.Users_DataBase_Table);
+        ImageFolder.child("Posts/")
+                .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
+                .getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                            Post post = new Post(common.Current_Client, city, price, room, null, uri.toString(), desc, type);
+                            SaveData(post);
+                        }
+                );
+    }
+
+    private void SaveData(Post post) {
+        FireBaseClient.GetInstance().getFirebaseFirestore()
+                .collection(common.Post_DataBase_Table)
+                .document()
+                .set(post)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                });
+        FireBaseClient.GetInstance().getFirebaseDatabase()
+                .getReference(common.Post_DataBase_Table)
+                .push()
+                .setValue(post)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                });
     }
 }

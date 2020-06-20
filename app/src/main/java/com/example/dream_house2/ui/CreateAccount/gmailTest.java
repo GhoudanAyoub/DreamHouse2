@@ -20,6 +20,7 @@ import com.example.dream_house2.Modules.User;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.text.SimpleDateFormat;
@@ -123,15 +124,24 @@ public class gmailTest extends Fragment {
                 .createUserWithEmailAndPassword(Objects.requireNonNull(Email.getEditText()).getText().toString(),
                         Objects.requireNonNull(Password.getEditText()).getText().toString())
                 .addOnCompleteListener(t -> {
-                    if (t.isSuccessful()) {
-                        Toast.makeText(getActivity(), "Created successfully\uD83D\uDE04 ", Toast.LENGTH_LONG).show();
-                        assert getArguments() != null;
-                        phone = getArguments().getString("phone");
-                        AddUser(Objects.requireNonNull(Email.getEditText()).getText().toString(), Objects.requireNonNull(Password.getEditText()).getText().toString(),
-                                Objects.requireNonNull(name.getEditText()).getText().toString(), phone);
-                        startActivity(new Intent(requireActivity(), Base_Home.class));
-                    } else {
-                        Toast.makeText(getActivity(), "We faced A problem while creating your account\uD83D\uDE14", Toast.LENGTH_LONG).show();
+                    try {
+                        if (t.isSuccessful()) {
+                            Objects.requireNonNull(FireBaseClient.GetInstance().getFirebaseAuth()
+                                    .getCurrentUser())
+                                    .updateProfile(new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(Objects.requireNonNull(name.getEditText()).getText().toString()).build());
+                            Toast.makeText(getActivity(), "Created successfully\uD83D\uDE04 ", Toast.LENGTH_LONG).show();
+                            assert getArguments() != null;
+                            phone = getArguments().getString("phone");
+                            AddUser(Objects.requireNonNull(Email.getEditText()).getText().toString(), Objects.requireNonNull(Password.getEditText()).getText().toString(),
+                                    Objects.requireNonNull(name.getEditText()).getText().toString(), phone);
+                            startActivity(new Intent(requireActivity(), Base_Home.class));
+                        } else {
+                            Log.d("createAccount", t.getException().getMessage());
+                            Toast.makeText(getActivity(), "We faced A problem while creating your account\uD83D\uDE14", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        Log.d("createAccount", e.getMessage());
                     }
                 });
     }
