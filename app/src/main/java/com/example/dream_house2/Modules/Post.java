@@ -3,8 +3,6 @@ package com.example.dream_house2.Modules;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 public class Post implements Parcelable {
     private String post_owner;
     private String city;
@@ -14,7 +12,6 @@ public class Post implements Parcelable {
     private String images;
     private String description;
     private String home_type;
-    private List<String> List_images;
 
     public Post() { }
 
@@ -27,25 +24,6 @@ public class Post implements Parcelable {
         this.images = images;
         this.description = description;
         this.home_type = home_type;
-    }
-
-    public Post(String post_owner, String city, String price, String room, Integer rate, String description, String home_type, List<String> list_images) {
-        this.post_owner = post_owner;
-        this.city = city;
-        this.price = price;
-        this.room = room;
-        this.rate = rate;
-        this.description = description;
-        this.home_type = home_type;
-        List_images = list_images;
-    }
-
-    public List<String> getList_images() {
-        return List_images;
-    }
-
-    public void setList_images(List<String> list_images) {
-        List_images = list_images;
     }
 
     public String getHome_type() {

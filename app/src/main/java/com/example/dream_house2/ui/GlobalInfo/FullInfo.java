@@ -48,9 +48,8 @@ public class FullInfo extends Fragment {
         assert getArguments() != null;
         Post post = getArguments().getParcelable("post");
         assert post != null;
-        String[] url = post.getImages().split("/");
         Glide.with(requireActivity())
-                .load(url)
+                .load(post.getImages())
                 .centerCrop()
                 .into(imageViewList);
         fullinfor_rate.setRating(post.getRate());

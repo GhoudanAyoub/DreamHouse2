@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,7 +20,6 @@ import com.example.dream_house2.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +32,7 @@ import kotlin.Unit;
 public class NewPost extends AppCompatActivity {
 
     private final static int Image_Request = 1;
-    private ArrayList<Uri> ImageList = new ArrayList<>();
+    private Uri ImageList = null;
     private TextInputLayout cityadd, descadd;
     private SeekBar priceadd, roomadd;
     private RadioGroup radioGroup;
@@ -41,7 +41,7 @@ public class NewPost extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ImageView imageSwitcher;
-    private int cuurentindex = -1;
+    private TextView textView21, textView22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,24 +53,6 @@ public class NewPost extends AppCompatActivity {
         progressDialog.setMessage("Uploading ..........");
         imageSwitcher = findViewById(R.id.pager);
 
-        findViewById(R.id.imageButton3).setOnClickListener(y -> {
-            if (cuurentindex > 0) {
-                cuurentindex -= 1;
-                Glide.with(getApplicationContext())
-                        .load(ImageList.get(cuurentindex))
-                        .centerCrop()
-                        .into(imageSwitcher);
-            }
-        });
-        findViewById(R.id.imageButton4).setOnClickListener(y -> {
-            if (cuurentindex < ImageList.size() - 1) {
-                cuurentindex += 1;
-                Glide.with(getApplicationContext())
-                        .load(ImageList.get(cuurentindex))
-                        .centerCrop()
-                        .into(imageSwitcher);
-            }
-        });
         findViewById(R.id.imageButton2).setOnClickListener(b -> openImageFile());
         newPostModelView.getMutableLiveData().observe(this, s -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show());
         RxView.clicks(findViewById(R.id.add))
@@ -102,6 +84,8 @@ public class NewPost extends AppCompatActivity {
     }
 
     private void views() {
+        textView21 = findViewById(R.id.textView21);
+        textView22 = findViewById(R.id.textView22);
         cityadd = findViewById(R.id.cityadd);
         descadd = findViewById(R.id.descadd);
         priceadd = findViewById(R.id.priceadd);
@@ -111,6 +95,7 @@ public class NewPost extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 price = String.valueOf(progress);
+                textView21.setText(price);
             }
 
             @Override
@@ -127,6 +112,7 @@ public class NewPost extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 room = String.valueOf(progress);
+                textView22.setText(room);
             }
 
             @Override
@@ -159,7 +145,6 @@ public class NewPost extends AppCompatActivity {
     private void openImageFile() {
         Intent galinten = new Intent();
         galinten.setType("image/*");
-        galinten.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         galinten.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(galinten, "SELECT IMAGE"), Image_Request);
     }
@@ -169,13 +154,8 @@ public class NewPost extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             if (requestCode == Image_Request && resultCode == RESULT_OK && data != null && data.getData() != null) {
-                int count = Objects.requireNonNull(data.getClipData()).getItemCount();
-                int CurrentImageSelect = 0;
-                while (CurrentImageSelect < count) {
-                    Uri ImageUri = data.getClipData().getItemAt(CurrentImageSelect).getUri();
-                    ImageList.add(ImageUri);
-                    CurrentImageSelect = CurrentImageSelect + 1;
-                }
+                ImageList = data.getData();
+                Glide.with(this).load(ImageList).into(imageSwitcher);
             }
         } catch (Exception e) {
             Log.e("AddPost", e.getMessage());

@@ -26,7 +26,6 @@ public class Base_Home extends AppCompatActivity {
                 R.id.navigation_favor, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
         NavigationUI.setupWithNavController(navView, navController);
     }
 

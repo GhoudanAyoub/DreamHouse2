@@ -13,7 +13,6 @@ import com.example.dream_house2.common.common;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,22 +48,6 @@ public class HomeViewModel extends ViewModel {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-        FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Post_DataBase_Table)
-                .get()
-                .addOnCompleteListener(task -> {
-                    try {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                Post post = document.toObject(Post.class);
-                                postList.add(post);
-                            }
-                            postMutableLiveData.setValue(postList);
-                        }
-                    } catch (Throwable t) {
-                        Log.e("GetPostException", Objects.requireNonNull(t.getMessage()));
                     }
                 });
     }

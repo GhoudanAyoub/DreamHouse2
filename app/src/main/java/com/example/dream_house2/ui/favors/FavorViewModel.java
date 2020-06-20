@@ -13,7 +13,6 @@ import com.example.dream_house2.common.common;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,26 +50,6 @@ public class FavorViewModel extends ViewModel {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-        FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Favor_DataBase_Table)
-                .get()
-                .addOnCompleteListener(task -> {
-                    try {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                favorites favor = document.toObject(favorites.class);
-                                if (favor.getPost().getPost_owner().equals(common.Current_Client)) {
-                                    favoritesList.add(favor);
-                                }
-
-                            }
-                            favoritesMutableLiveData.setValue(favoritesList);
-                        }
-                    } catch (Throwable t) {
-                        Log.e("GetFavorException", Objects.requireNonNull(t.getMessage()));
                     }
                 });
     }

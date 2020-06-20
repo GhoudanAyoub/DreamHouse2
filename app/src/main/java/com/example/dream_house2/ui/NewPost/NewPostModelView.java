@@ -9,14 +9,15 @@ import androidx.lifecycle.ViewModel;
 import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.common.common;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
+import java.util.Objects;
+
 
 public class NewPostModelView extends ViewModel {
 
     private MutableLiveData<String> mutableLiveData ;
-    private ArrayList<String> ImageUri = new ArrayList<>();
 
     public LiveData<String> getMutableLiveData() {
         if (mutableLiveData==null){
@@ -25,32 +26,23 @@ public class NewPostModelView extends ViewModel {
         return mutableLiveData;
     }
 
-    public void upload(String city, String price, String room, String desc, String type, ArrayList<Uri> ImageList) {
+    public void upload(String city, String price, String room, String desc, String type, Uri ImageList) {
         final StorageReference ImageFolder =  FireBaseClient.GetInstance().getFirebaseStorage()
                 .getReference().child(common.Image_Documment_Storage);
 
-        for (int uploads =0; uploads < ImageList.size(); uploads++) {
-            Uri Image  = ImageList.get(uploads);
-            final StorageReference imagename  = ImageFolder.child("image/"+Image.getLastPathSegment());
-            imagename.putFile(ImageList.get(uploads)).addOnSuccessListener(taskSnapshot ->
-                    imagename.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String url = String.valueOf(uri);
-                        ImageUri.add(url + "/");
-                    }));
-        }
-        Post post = new Post(common.Current_Client,city,price,room, null,desc,type,ImageUri);
-        SaveData(post);
+        final StorageReference imagename = ImageFolder.child("image/").child(Objects.requireNonNull(ImageList.getLastPathSegment()));
+        imagename.putFile(ImageList).addOnSuccessListener(taskSnapshot -> {
+                    Task<Uri> download1 = Objects.requireNonNull(taskSnapshot.getMetadata()).getReference().getDownloadUrl();
+                    Post post = new Post(common.Current_Client, city, price, room, null, download1.toString(), desc, type);
+                    SaveData(post);
+                }
+        );
     }
     private void SaveData(Post post){
         FireBaseClient.GetInstance().getFirebaseDatabase()
                 .getReference(common.Post_DataBase_Table)
                 .push()
                 .setValue(post)
-                .addOnSuccessListener(aVoid -> mutableLiveData.setValue("Done"));
-        FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Post_DataBase_Table)
-                .document()
-                .set(post)
                 .addOnSuccessListener(aVoid -> mutableLiveData.setValue("Done"));
     }
 }

@@ -43,10 +43,9 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHol
     public void onBindViewHolder(@NonNull postAdapterHolder holder, int position) {
 
         Post post = List.get(position);
-        String[] url = post.getImages().split("/");
         Glide
                 .with(context)
-                .load(url[1])
+                .load(post.getImages())
                 .centerCrop()
                 .into(holder.post_imageView);
         holder.post_rate.setRating(post.getRate());
