@@ -62,8 +62,6 @@ public class profile extends Fragment {
         password = root.findViewById(R.id.passedittext);
         date = root.findViewById(R.id.textView11);
 
-        Log.e("Current_Client", common.Current_Client);
-        Log.e("Current_Client", common.Current_Client_Gmail);
 
         progressDialog = new ProgressDialog(requireContext());
         progressDialog.setMessage("Uploading ..........");
