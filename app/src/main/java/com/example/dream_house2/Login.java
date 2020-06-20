@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dream_house2.API.FireBaseClient;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.FirebaseApp;
 import com.jakewharton.rxbinding3.view.RxView;
 
 import java.util.Objects;
@@ -25,7 +24,7 @@ import kotlin.Unit;
 
 public class Login extends AppCompatActivity {
 
-    private TextInputLayout email,password;
+    private TextInputLayout email, password;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -34,11 +33,11 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        FirebaseApp.initializeApp(getApplicationContext());
+        //FirebaseApp.initializeApp(getApplicationContext());
         email = findViewById(R.id.gmailEditText);
         password = findViewById(R.id.passEditText);
 
-        findViewById(R.id.signup).setOnClickListener(v->startActivity(new Intent(getApplicationContext(),SignIn.class)));
+        findViewById(R.id.signup).setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SignIn.class)));
         RxView.clicks(findViewById(R.id.login))
                 .throttleFirst(4, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,32 +58,38 @@ public class Login extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onComplete() { }
+                    public void onComplete() {
+                    }
                 });
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        if (FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(), Base_Home.class)); }
+        if (FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), Base_Home.class));
+        }
     }
-    private void LoginUser(final String email, final String password) {
-        if (!validateForm())return;
+
+    private void LoginUser(String email, String password) {
+        if (!validateForm()) return;
         try {
             FireBaseClient.GetInstance().getFirebaseAuth()
                     .signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    startActivity(new Intent(getApplicationContext(), Base_Home.class));
-                    Toast.makeText(getApplicationContext(), "Welcome\uD83D\uDE04", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Email Or Password Error", Toast.LENGTH_LONG).show();
-                }
-            });
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(getApplicationContext(), Base_Home.class));
+                            Toast.makeText(getApplicationContext(), "Welcome\uD83D\uDE04", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("LoginUser", task.getException().getMessage());
+                            Toast.makeText(getApplicationContext(), "Email Or Password Error", Toast.LENGTH_LONG).show();
+                        }
+                    });
         } catch (Exception ex) {
             Toast.makeText(getApplicationContext(), " Check Your Connection Network", Toast.LENGTH_LONG).show();
         }
     }
+
     private boolean validateForm() {
         boolean valid = true;
 
@@ -105,10 +110,16 @@ public class Login extends AppCompatActivity {
         }
         return valid;
     }
+
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed() {
+    }
+
     @Override
-    protected void onDestroy() { super.onDestroy();compositeDisposable.clear();}
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
 
 
 }

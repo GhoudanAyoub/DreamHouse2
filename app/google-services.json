@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "2363587522",
-    "firebase_url": "https://dreamhouse-eb35f.firebaseio.com",
-    "project_id": "dreamhouse-eb35f",
-    "storage_bucket": "dreamhouse-eb35f.appspot.com"
+    "project_number": "143425633624",
+    "firebase_url": "https://dreamhouse-a2d8f.firebaseio.com",
+    "project_id": "dreamhouse-a2d8f",
+    "storage_bucket": "dreamhouse-a2d8f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:2363587522:android:4585f21568f196b85ef45b",
+        "mobilesdk_app_id": "1:143425633624:android:dcc6a812d0473c860bf92d",
         "android_client_info": {
           "package_name": "com.example.dream_house2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "2363587522-ksquauft7l2t0e7v1eor7cv4dbep23ak.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.dream_house2",
-            "certificate_hash": "69350b9c51871821b0a21875cc9e3b4f83173771"
-          }
-        },
-        {
-          "client_id": "2363587522-4chc3jkmvjruvn9p7rph6o6kp8gd58rb.apps.googleusercontent.com",
+          "client_id": "143425633624-52rm0fegpr1sgaqldsg7714u39f577jp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyArVbd9-8D2eb2iZxwZjD7sE7Zh8zOXfWI"
+          "current_key": "AIzaSyBP8NkghF0Dx4qCxOgP-mVGnCGlOeBiqy4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "2363587522-4chc3jkmvjruvn9p7rph6o6kp8gd58rb.apps.googleusercontent.com",
+              "client_id": "143425633624-52rm0fegpr1sgaqldsg7714u39f577jp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
