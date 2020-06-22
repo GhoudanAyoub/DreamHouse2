@@ -25,7 +25,7 @@ public class FavorFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_favor, container, false);
         notificationsViewModel.GetFavors();
 
-        favoritesAdapter = new favoritesAdapter(getActivity());
+        favoritesAdapter = new favoritesAdapter(getActivity(),root);
         RecyclerView RecycleViewFavorites = root.findViewById(R.id.recycleviewfavorites);
 
         RecycleViewFavorites.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

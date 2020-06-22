@@ -44,6 +44,7 @@ public class NewPost extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ImageView imageSwitcher;
     private TextView textView21, textView22;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,12 @@ public class NewPost extends AppCompatActivity {
         priceadd = findViewById(R.id.priceadd);
         roomadd = findViewById(R.id.roomadd);
         radioGroup = findViewById(R.id.group);
+        if (getIntent().getStringExtra("num")!=null){
+            phone = getIntent().getStringExtra("num");
+        }else {
+            phone="+2126**********";
+        }
+
         priceadd.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -92,8 +99,8 @@ public class NewPost extends AppCompatActivity {
 
             }
         });
-        city = String.valueOf(Objects.requireNonNull(cityadd.getEditText()).getText());
-        desc = String.valueOf(Objects.requireNonNull(descadd.getEditText()).getText());
+        city = Objects.requireNonNull(cityadd.getEditText()).getText().toString();
+        desc = Objects.requireNonNull(descadd.getEditText()).getText().toString();
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.all:
@@ -165,16 +172,19 @@ public class NewPost extends AppCompatActivity {
 
     public void upload(String city, String price, String room, String desc, String type) {
         final StorageReference ImageFolder = FireBaseClient.GetInstance().getFirebaseStorage()
-                .getReference()
-                .child(common.Users_DataBase_Table);
+                .getReference().child(common.Users_DataBase_Table);
+
         ImageFolder.child("Posts/")
                 .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
-                .getDownloadUrl()
-                .addOnSuccessListener(uri -> {
-                            Post post = new Post(common.Current_Client, city, price, room, null, uri.toString(), desc, type);
+                .putFile(ImageList).addOnSuccessListener(taskSnapshot ->
+
+                ImageFolder.child("Posts/")
+                        .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
+                        .getDownloadUrl().addOnSuccessListener(uri -> {
+                            Post post = new Post(common.Current_Client, city, price, room, 1, uri.toString(), desc, type,phone);
                             SaveData(post);
                         }
-                );
+                ));
     }
 
     private void SaveData(Post post) {
@@ -183,7 +193,7 @@ public class NewPost extends AppCompatActivity {
                 .document()
                 .set(post)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG);
                     progressDialog.dismiss();
                 });
         FireBaseClient.GetInstance().getFirebaseDatabase()

@@ -25,7 +25,7 @@ public class bookedFragment extends Fragment {
         mViewModel.GetMyPosts();
         MyPostAdapter = new postAdapter(getActivity(),root);
         RecyclerView RecycleViewBooked = root.findViewById(R.id.recycleviewbooked);
-        RecycleViewBooked.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        RecycleViewBooked.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         RecycleViewBooked.setHasFixedSize(true);
         RecycleViewBooked.setAdapter(MyPostAdapter);
         mViewModel.getMyPostMutableLiveData().observe(getViewLifecycleOwner(), post -> MyPostAdapter.setList(post));

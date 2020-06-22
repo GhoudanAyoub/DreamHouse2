@@ -12,10 +12,11 @@ public class Post implements Parcelable {
     private String images;
     private String description;
     private String home_type;
+    private String Num;
 
     public Post() { }
 
-    public Post(String post_owner, String city, String price, String room, Integer rate, String images, String description, String home_type) {
+    public Post(String post_owner, String city, String price, String room, Integer rate, String images, String description, String home_type, String num) {
         this.post_owner = post_owner;
         this.city = city;
         this.price = price;
@@ -24,6 +25,23 @@ public class Post implements Parcelable {
         this.images = images;
         this.description = description;
         this.home_type = home_type;
+        this.Num = num;
+    }
+
+    protected Post(Parcel in) {
+        post_owner = in.readString();
+        city = in.readString();
+        price = in.readString();
+        room = in.readString();
+        rate = in.readInt();
+        images = in.readString();
+        description = in.readString();
+        home_type = in.readString();
+        Num = in.readString();
+    }
+
+    public String getNum() {
+        return Num;
     }
 
     public String getHome_type() {
@@ -103,15 +121,8 @@ public class Post implements Parcelable {
         }
     };
 
-    protected Post(Parcel in) {
-        post_owner = in.readString();
-        city = in.readString();
-        price = in.readString();
-        room = in.readString();
-        rate = in.readInt();
-        images = in.readString();
-        description = in.readString();
-        home_type = in.readString();
+    public void setNum(String num) {
+        Num = num;
     }
 
     @Override
@@ -121,14 +132,18 @@ public class Post implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(post_owner);
-        dest.writeString(city);
-        dest.writeString(price);
-        dest.writeString(room);
-        dest.writeInt(rate);
-        dest.writeString(images);
-        dest.writeString(description);
-        dest.writeString(home_type);
+        try {
+            dest.writeString(post_owner);
+            dest.writeString(city);
+            dest.writeString(price);
+            dest.writeString(room);
+            dest.writeInt(rate);
+            dest.writeString(images);
+            dest.writeString(description);
+            dest.writeString(home_type);
+            dest.writeString(Num);
+        } catch (Exception e) {
+        }
     }
 
 }

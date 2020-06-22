@@ -131,8 +131,8 @@ public class gmailTest extends Fragment {
                                     .updateProfile(new UserProfileChangeRequest.Builder()
                                             .setDisplayName(Objects.requireNonNull(name.getEditText()).getText().toString()).build());
                             Toast.makeText(getActivity(), "Created successfully\uD83D\uDE04 ", Toast.LENGTH_LONG).show();
-                            assert getArguments() != null;
-                            phone = getArguments().getString("phone");
+                           assert getArguments() != null;
+                           phone = getArguments().getString("phone");
                             AddUser(Objects.requireNonNull(Email.getEditText()).getText().toString(), Objects.requireNonNull(Password.getEditText()).getText().toString(),
                                     Objects.requireNonNull(name.getEditText()).getText().toString(), phone);
                             startActivity(new Intent(requireActivity(), Base_Home.class));

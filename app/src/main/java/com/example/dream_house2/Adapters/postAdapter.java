@@ -3,24 +3,34 @@ package com.example.dream_house2.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
+import com.example.dream_house2.Modules.favorites;
 import com.example.dream_house2.R;
+import com.example.dream_house2.common.common;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHolder> {
     private List<Post> List = new ArrayList<>();
@@ -48,21 +58,30 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHol
                 .load(post.getImages())
                 .centerCrop()
                 .into(holder.post_imageView);
-        holder.post_rate.setRating(post.getRate());
-        holder.post_owner_home.setText(post.getHome_type()+" by the "+post.getPost_owner());
+        if (post.getRate()==null){
+            holder.post_rate.setRating(1);
+        }else {
+            holder.post_rate.setRating(post.getRate());
+        }
+        holder.post_owner_home.setText(post.getHome_type()+" by "+post.getPost_owner());
         holder.post_city.setText(post.getCity());
+        if (post.getHome_type().equals("House")){
+            holder.post_price.setText(post.getPrice()+" DH");
+        }else {
+            holder.post_price.setText(post.getPrice()+" DH per night");
+        }
         holder.post_price.setText(post.getPrice()+" per night");
         holder.post_room.setText(post.getRoom() +" guests max");
         Bundle bundle = new Bundle();
         bundle.putParcelable("post",post);
         holder.post_imageView.setOnClickListener(v-> Navigation.findNavController(view).navigate(R.id.navigation_fullInfo,bundle));
-        /*
-        holder.post_floatingActionButton.setOnClickListener(v-> FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Favor_DataBase_Table)
-                .document(post.getPost_owner())
-                .set(post));
 
-         */
+        holder.post_floatingActionButton.setOnClickListener(v->
+                FireBaseClient.GetInstance().getFirebaseFirestore()
+                        .collection(common.Favor_DataBase_Table)
+                        .document()
+                        .set(new favorites(post)).addOnSuccessListener(aVoid ->
+                        Toast.makeText(context, "Favored", Toast.LENGTH_LONG).show()));
     }
 
     @Override

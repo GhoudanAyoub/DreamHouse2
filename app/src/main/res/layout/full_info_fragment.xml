@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".ui.GlobalInfo.FullInfo">
 
     <androidx.constraintlayout.widget.Guideline
@@ -43,34 +44,29 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_favorite_border_black_24dp"
         android:tint="@color/BaseColor"
         app:backgroundTint="@color/colorPrimaryDark"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="@+id/imageViewlist"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fullinfo_floatingActionButton3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/buttoncolor"
-        android:clickable="true"
-        android:fontFamily="@font/catamaran_bold"
-        android:text="BOOK NOW"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
+        android:tint="#FFFFFF"
+        app:backgroundTint="@color/BaseColor"
         app:fabSize="normal"
-        app:icon="@drawable/home"
-        app:iconTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/fullinfo_floatingActionButton2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageViewlist"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@drawable/ic_call_black_24dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -166,6 +162,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/catamaran"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+            android:textColor="@color/cardview_dark_background"
             android:textSize="18sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

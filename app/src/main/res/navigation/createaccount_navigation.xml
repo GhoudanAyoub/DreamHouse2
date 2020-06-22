@@ -6,6 +6,11 @@
     app:startDestination="@id/phoneTest">
 
     <fragment
+        android:id="@+id/gmailTest"
+        android:name="com.example.dream_house2.ui.CreateAccount.gmailTest"
+        android:label="gmail_test_fragment"
+        tools:layout="@layout/gmail_test_fragment" />
+    <fragment
         android:id="@+id/phoneTest"
         android:name="com.example.dream_house2.ui.CreateAccount.phoneTest"
         android:label="phone_test_fragment"
@@ -14,9 +19,4 @@
             android:id="@+id/action_phoneTest_to_gmailTest"
             app:destination="@id/gmailTest" />
     </fragment>
-    <fragment
-        android:id="@+id/gmailTest"
-        android:name="com.example.dream_house2.ui.CreateAccount.gmailTest"
-        android:label="gmail_test_fragment"
-        tools:layout="@layout/gmail_test_fragment" />
 </navigation>

@@ -31,10 +31,13 @@ import com.jakewharton.rxbinding3.view.RxView;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 
 import static android.app.Activity.RESULT_OK;
@@ -71,7 +74,13 @@ public class profile extends Fragment {
             startActivity(new Intent(requireActivity(), Login.class));
         });
         root.findViewById(R.id.imageView).setOnClickListener(v -> openImageFile());
-        root.findViewById(R.id.imageButton).setOnClickListener(v -> startActivity(new Intent(requireActivity(), NewPost.class)));
+        root.findViewById(R.id.imageButton).setOnClickListener(v -> {
+            Intent i = new Intent(requireActivity(), NewPost.class);
+        if (users.getPhone()!=null){
+            i.putExtra("num",users.getPhone());
+        }
+            startActivity(i);
+        });
         RxView.clicks(root.findViewById(R.id.save))
                 .throttleFirst(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -122,19 +131,25 @@ public class profile extends Fragment {
     private void UpdateUser(User u) {
         final StorageReference ImageFolder = FireBaseClient.GetInstance().getFirebaseStorage()
                 .getReference().child(common.Users_DataBase_Table);
+        ImageFolder.child("PDP/")
+                .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
+                .putFile(ImageList).addOnSuccessListener(taskSnapshot ->
 
-        ImageFolder.child("PDP/").child(Objects.requireNonNull(ImageList.getLastPathSegment()))
-                .getDownloadUrl().addOnSuccessListener(uri ->
-                FireBaseClient.GetInstance().getFirebaseFirestore()
-                        .collection(common.Users_DataBase_Table)
-                        .document(u.getName())
-                        .update("image", uri.toString())
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                progressDialog.dismiss();
-                                Log.e("", "Updated successes");
-                            }
-                        }));
+                ImageFolder.child("PDP/")
+                        .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
+                        .getDownloadUrl().addOnSuccessListener(uri ->
+                        FireBaseClient.GetInstance().getFirebaseFirestore()
+                                .collection(common.Users_DataBase_Table)
+                                .document(u.getName())
+                                .update("image", uri.toString())
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        progressDialog.dismiss();
+                                        Log.e("", "Updated successes");
+                                    }
+                                })
+                ));
+
     }
 
     @Override
@@ -160,7 +175,6 @@ public class profile extends Fragment {
                                     Objects.requireNonNull(password.getEditText()).setText(users.getPassword());
                                     if (users.getImage() != null) {
                                         Glide.with(getContext()).load(users.getImage())
-                                                .centerCrop().placeholder(R.drawable.userimage)
                                                 .into(image);
                                     }
                                 }

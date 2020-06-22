@@ -2,6 +2,7 @@ package com.example.dream_house2.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,11 +29,12 @@ import java.util.List;
 public class favoritesAdapter extends RecyclerView.Adapter<favoritesAdapter.favoritesAdapterHolder> {
     private List<favorites> List = new ArrayList<>();
     private Context context;
+    private View view;
 
-    public favoritesAdapter(Context context) {
+    public favoritesAdapter(Context context, View view) {
         this.context = context;
+        this.view = view;
     }
-
     @NonNull
     @Override
     public favoritesAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,17 +45,30 @@ public class favoritesAdapter extends RecyclerView.Adapter<favoritesAdapter.favo
     @Override
     public void onBindViewHolder(@NonNull favoritesAdapterHolder holder, int position) {
         Post post = List.get(position).getPost();
-        String[] url = post.getImages().split("/");
         Glide
                 .with(context)
-                .load(url)
+                .load(post.getImages())
                 .centerCrop()
                 .into(holder.favor_imageView);
-        holder.favor_rate.setRating(post.getRate());
-        holder.owner_home.setText(post.getHome_type()+" by the "+post.getPost_owner());
+
+        if (post.getHome_type().equals("House")){
+            holder.favor_price.setText(post.getPrice()+" DH");
+        }else {
+            holder.favor_price.setText(post.getPrice()+" DH per night");
+        }
+        if (post.getRate()==null){
+            holder.favor_rate.setRating(1);
+        }else {
+            holder.favor_rate.setRating(post.getRate());
+        }
+        holder.owner_home.setText(post.getHome_type()+" by "+post.getPost_owner());
         holder.favor_city.setText(post.getCity());
-        holder.favor_price.setText(post.getPrice()+" per night");
         holder.favor_room.setText(post.getRoom() +" guests max");
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("post",post);
+        holder.favor_imageView.setOnClickListener(v-> Navigation.findNavController(view).navigate(R.id.navigation_fullInfo,bundle));
+
         holder.favor_floatingActionButton.setOnClickListener(v-> FireBaseClient.GetInstance().getFirebaseFirestore()
                 .collection(common.Favor_DataBase_Table)
                 .document(post.getPost_owner())

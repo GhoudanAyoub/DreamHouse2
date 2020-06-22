@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/catamaran_bold"
-            android:text="BOOKED"
+            android:text="OWNED"
             android:textColor="#403B3B"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -33,7 +33,7 @@
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your booked items"
+            android:text="Your own items"
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
 
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/catamaran"
-            android:text="You booked 8 flats and 3 homes"
+            android:text="You owned 8 flats and 3 homes"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
