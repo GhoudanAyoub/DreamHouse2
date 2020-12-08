@@ -1,4 +1,4 @@
-package com.example.dream_house2.ui.filters;
+package com.example.dream_house2.ui.home;
 
 import android.os.Bundle;
 import android.view.WindowManager;

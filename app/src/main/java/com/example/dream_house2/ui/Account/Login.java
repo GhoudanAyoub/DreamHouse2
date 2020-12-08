@@ -1,4 +1,4 @@
-package com.example.dream_house2;
+package com.example.dream_house2.ui.Account;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dream_house2.API.FireBaseClient;
+import com.example.dream_house2.Base_Home;
+import com.example.dream_house2.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 

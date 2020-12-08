@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home_search"
-        android:name="com.example.dream_house2.ui.search_home.HomeFragment"
+        android:name="com.example.dream_house2.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/navigation_favor"
-        android:name="com.example.dream_house2.ui.favors.FavorFragment"
+        android:name="com.example.dream_house2.ui.home.FavorFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_favor">
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_booked"
-        android:name="com.example.dream_house2.ui.booked.bookedFragment"
+        android:name="com.example.dream_house2.ui.home.bookedFragment"
         android:label="booked_fragment"
         tools:layout="@layout/booked_fragment">
         <action
@@ -44,12 +44,12 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.dream_house2.ui.profile.profile"
+        android:name="com.example.dream_house2.ui.Account.profile"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
     <fragment
         android:id="@+id/navigation_fullInfo"
-        android:name="com.example.dream_house2.ui.GlobalInfo.FullInfo"
+        android:name="com.example.dream_house2.ui.home.FullInfo"
         android:label="full_info_fragment"
         tools:layout="@layout/full_info_fragment" />
 </navigation>

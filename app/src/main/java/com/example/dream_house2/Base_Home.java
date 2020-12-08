@@ -11,6 +11,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class Base_Home extends AppCompatActivity {
 
     @Override
@@ -19,8 +22,6 @@ public class Base_Home extends AppCompatActivity {
         setContentView(R.layout.activity_base__home);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         FirebaseApp.initializeApp(getApplicationContext());
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home_search, R.id.navigation_booked,
                 R.id.navigation_favor, R.id.navigation_profile)

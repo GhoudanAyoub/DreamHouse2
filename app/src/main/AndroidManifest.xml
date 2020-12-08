@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
+        android:name=".BaseApp"
         android:allowBackup="true"
         android:icon="@drawable/placeholder"
         android:label="@string/app_name"
@@ -24,12 +25,12 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".ui.NewPost.NewPost" />
-        <activity android:name=".ui.filters.filters" />
+        <activity android:name=".ui.home.filters" />
         <activity
             android:name=".Base_Home"
             android:label="@string/title_activity_base__home" />
-        <activity android:name=".SignIn" />
-        <activity android:name=".Login">
+        <activity android:name=".ui.Account.SignIn" />
+        <activity android:name=".ui.Account.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

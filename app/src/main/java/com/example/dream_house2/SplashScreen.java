@@ -7,6 +7,11 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.dream_house2.ui.Account.Login;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class SplashScreen extends AppCompatActivity {
 
     @Override
@@ -14,7 +19,6 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        new Handler().postDelayed(() -> startActivity(new Intent(getApplicationContext(),Login.class)),3000);
+        new Handler().postDelayed(() -> startActivity(new Intent(getApplicationContext(), Login.class)),3000);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.dream_house2.ui.profile;
+package com.example.dream_house2.ui.Account;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.dream_house2.API.FireBaseClient;
-import com.example.dream_house2.Login;
 import com.example.dream_house2.Modules.User;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
@@ -31,13 +30,10 @@ import com.jakewharton.rxbinding3.view.RxView;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 
 import static android.app.Activity.RESULT_OK;

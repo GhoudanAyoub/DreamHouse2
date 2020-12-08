@@ -3,7 +3,14 @@ package com.example.dream_house2.Modules;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "post")
 public class Post implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String post_owner;
     private String city;
     private String price;
@@ -26,6 +33,14 @@ public class Post implements Parcelable {
         this.description = description;
         this.home_type = home_type;
         this.Num = num;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     protected Post(Parcel in) {

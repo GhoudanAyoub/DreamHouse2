@@ -3,41 +3,34 @@ package com.example.dream_house2.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
-import com.example.dream_house2.Modules.favorites;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
-public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
     private List<Post> List = new ArrayList<>();
+    private List<Post> FavorList = new ArrayList<>();
     private Context context;
     private View view;
 
-    public postAdapter(Context context, View view) {
+    public Adapter(Context context, View view) {
         this.context = context;
         this.view = view;
     }
@@ -77,11 +70,8 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHol
         holder.post_imageView.setOnClickListener(v-> Navigation.findNavController(view).navigate(R.id.navigation_fullInfo,bundle));
 
         holder.post_floatingActionButton.setOnClickListener(v->
-                FireBaseClient.GetInstance().getFirebaseFirestore()
-                        .collection(common.Favor_DataBase_Table)
-                        .document()
-                        .set(new favorites(post)).addOnSuccessListener(aVoid ->
-                        Toast.makeText(context, "Favored", Toast.LENGTH_LONG).show()));
+        {
+        });
     }
 
     @Override
@@ -92,6 +82,14 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.postAdapterHol
     public void setList(List<Post> moviesList) {
         this.List = moviesList;
         notifyDataSetChanged();
+    }
+    public void setFavorList(List<Post> moviesList) {
+        this.FavorList = moviesList;
+        notifyDataSetChanged();
+    }
+
+    public Post getCardList(int adapterPosition) {
+        return FavorList.get(adapterPosition);
     }
 
     static class postAdapterHolder extends RecyclerView.ViewHolder {

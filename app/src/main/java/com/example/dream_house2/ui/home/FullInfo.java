@@ -1,4 +1,4 @@
-package com.example.dream_house2.ui.GlobalInfo;
+package com.example.dream_house2.ui.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,18 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
-import com.example.dream_house2.Modules.favorites;
 import com.example.dream_house2.R;
-import com.example.dream_house2.common.common;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jakewharton.rxbinding3.view.RxView;
 
@@ -89,11 +85,7 @@ public class FullInfo extends Fragment {
 
                     @Override
                     public void onNext(Unit unit) {
-                        FireBaseClient.GetInstance().getFirebaseFirestore()
-                                .collection(common.Favor_DataBase_Table)
-                                .document()
-                                .set(new favorites(post)).addOnSuccessListener(aVoid ->
-                                Toast.makeText(requireActivity(), "Favored", Toast.LENGTH_LONG).show());
+
                     }
 
                     @Override
