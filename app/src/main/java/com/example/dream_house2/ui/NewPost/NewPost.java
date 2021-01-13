@@ -20,9 +20,13 @@ import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.jakewharton.rxbinding3.view.RxView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +39,8 @@ import kotlin.Unit;
 public class NewPost extends AppCompatActivity {
 
     private final static int Image_Request = 1;
-    private Uri ImageList = null;
+    private ArrayList<Uri> ImageList2 = new ArrayList<Uri>();
+    private List<String> stringList = new ArrayList<>();
     private TextInputLayout cityadd, descadd;
     private SeekBar priceadd, roomadd;
     private RadioGroup radioGroup;
@@ -45,6 +50,7 @@ public class NewPost extends AppCompatActivity {
     private ImageView imageSwitcher;
     private TextView textView21, textView22;
     private String phone;
+    private Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,57 +157,75 @@ public class NewPost extends AppCompatActivity {
 
 
     private void openImageFile() {
-        Intent galinten = new Intent();
-        galinten.setType("image/*");
-        galinten.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(galinten, "SELECT IMAGE"), Image_Request);
+        //we will pick images
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(intent, Image_Request);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            if (requestCode == Image_Request && resultCode == RESULT_OK && data != null && data.getData() != null) {
-                ImageList = data.getData();
-                Glide.with(this).load(ImageList).into(imageSwitcher);
+        if (requestCode == Image_Request) {
+            if (resultCode == RESULT_OK) {
+                if (data.getClipData() != null) {
+                    int count = data.getClipData().getItemCount();
+
+                    int CurrentImageSelect = 0;
+
+                    while (CurrentImageSelect < count) {
+                        Uri imageuri = data.getClipData().getItemAt(CurrentImageSelect).getUri();
+                        ImageList2.add(imageuri);
+                        CurrentImageSelect = CurrentImageSelect + 1;
+                    }
+                   // textView.setVisibility(View.VISIBLE);
+                   // textView.setText("You Have Selected " + ImageList.size() + " Pictures");
+                    //Glide.with(this).load(ImageList).into(imageSwitcher);
+                }
             }
-        } catch (Exception e) {
-            Log.e("AddPost", e.getMessage());
         }
     }
 
+
     public void upload(String city, String price, String room, String desc, String type) {
-        final StorageReference ImageFolder = FireBaseClient.GetInstance().getFirebaseStorage()
-                .getReference().child(common.Users_DataBase_Table);
 
-        ImageFolder.child("Posts/")
-                .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
-                .putFile(ImageList).addOnSuccessListener(taskSnapshot ->
+        //textView.setText("Please Wait ... If Uploading takes Too much time please the button again ");
+        progressDialog.show();
+        final StorageReference ImageFolder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
+        int uploads = 0;
+        for (uploads = 0; uploads < ImageList2.size(); uploads++) {
+            Uri Image = ImageList2.get(uploads);
+            final StorageReference imageName = ImageFolder.child("image/" + Image.getLastPathSegment());
 
-                ImageFolder.child("Posts/")
-                        .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
-                        .getDownloadUrl().addOnSuccessListener(uri -> {
-                            Post post = new Post(common.Current_Client, city, price, room, 1, uri.toString(), desc, type,phone);
-                            SaveData(post);
-                        }
-                ));
+            imageName.putFile(ImageList2.get(uploads))
+                    .addOnFailureListener(Throwable::printStackTrace)
+                    .addOnSuccessListener(taskSnapshot ->
+                            imageName.getDownloadUrl().addOnSuccessListener(uri -> {
+                                String url = String.valueOf(uri);
+                                stringList.add(url);
+                                post = new Post(common.Current_Client, city, price, room, 1, stringList, desc, type,phone);
+                                SaveData(post);
+                            }));
+        }
     }
 
+
     private void SaveData(Post post) {
+        FirebaseDatabase.getInstance().getReference().child(common.Post_DataBase_Table)
+                .push()
+                .setValue(post)
+                .addOnFailureListener(Throwable::printStackTrace)
+                .addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
+                    //textView.setText("Image Uploaded Successfully");
+                    ImageList2.clear();
+                });
         FireBaseClient.GetInstance().getFirebaseFirestore()
                 .collection(common.Post_DataBase_Table)
                 .document()
                 .set(post)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG);
-                    progressDialog.dismiss();
-                });
-        FireBaseClient.GetInstance().getFirebaseDatabase()
-                .getReference(common.Post_DataBase_Table)
-                .push()
-                .setValue(post)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 });
     }
