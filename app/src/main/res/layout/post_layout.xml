@@ -23,7 +23,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <ImageView
+            <ImageSwitcher
                 android:id="@+id/post_imageView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

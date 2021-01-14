@@ -2,11 +2,16 @@ package com.example.dream_house2.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -46,19 +51,31 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
     public void onBindViewHolder(@NonNull postAdapterHolder holder, int position) {
 
         Post post = List.get(position);
-        Glide
-                .with(context)
-                .load(post.getImages())
-                .centerCrop()
-                .into(holder.post_imageView);
-        if (post.getRate()==null){
+        String[] image = post.getImages().split(",");
+
+        holder.imageSwitcher.setFactory(() -> {
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setLayoutParams(new ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+            return imageView;
+        });
+        // Declare in and out animations and load them using AnimationUtils class
+        Animation in = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right);
+
+        // set the animation type to ImageSwitcher
+        holder.imageSwitcher.setInAnimation(in);
+        holder.imageSwitcher.setOutAnimation(out);
+        holder.imageSwitcher.setImageURI(Uri.parse("https:/firebasestorage.googleapis.com/v0/b/dreamhouse-a2d8f.appspot.com/o/ImageFolder%2Fimage%2Fimage%3A76?alt=media&token=8fd9d6db-3414-43de-b59f-c544e79aee42"));
+
+        if (post.getRate()==0){
             holder.post_rate.setRating(1);
         }else {
             holder.post_rate.setRating(post.getRate());
         }
-        holder.post_owner_home.setText(post.getHome_type()+" by "+post.getPost_owner());
         holder.post_city.setText(post.getCity());
-        if (post.getHome_type().equals("House")){
+        if (post.getHome_type()!=null && post.getHome_type().equals("House")){
+            holder.post_owner_home.setText(post.getHome_type()+" by "+post.getPost_owner());
             holder.post_price.setText(post.getPrice()+" DH");
         }else {
             holder.post_price.setText(post.getPrice()+" DH per night");
@@ -67,11 +84,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
         holder.post_room.setText(post.getRoom() +" guests max");
         Bundle bundle = new Bundle();
         bundle.putParcelable("post",post);
-        holder.post_imageView.setOnClickListener(v-> Navigation.findNavController(view).navigate(R.id.navigation_fullInfo,bundle));
+        holder.imageSwitcher.setOnClickListener(v-> Navigation.findNavController(view).navigate(R.id.navigation_fullInfo,bundle));
 
-        holder.post_floatingActionButton.setOnClickListener(v->
-        {
-        });
+        holder.post_floatingActionButton.setOnClickListener(v-> { });
+
+
     }
 
     @Override
@@ -96,7 +113,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
         private TextView post_owner_home,post_city,post_price,post_room;
         private RatingBar post_rate;
         private FloatingActionButton post_floatingActionButton;
-        private ImageView post_imageView;
+        private ImageSwitcher imageSwitcher;
         public postAdapterHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -106,7 +123,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
             post_room = itemView.findViewById(R.id.post_room);
             post_rate = itemView.findViewById(R.id.post_rate);
             post_floatingActionButton = itemView.findViewById(R.id.post_floatingActionButton);
-            post_imageView = itemView.findViewById(R.id.post_imageView);
+            imageSwitcher = itemView.findViewById(R.id.post_imageView);
         }
     }
 }

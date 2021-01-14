@@ -1,5 +1,6 @@
 package com.example.dream_house2.ui.Account;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,8 @@ import com.example.dream_house2.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jakewharton.rxbinding3.view.RxView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +31,7 @@ public class Login extends AppCompatActivity {
 
     private TextInputLayout email, password;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,9 @@ public class Login extends AppCompatActivity {
         //FirebaseApp.initializeApp(getApplicationContext());
         email = findViewById(R.id.gmailEditText);
         password = findViewById(R.id.passEditText);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Login ..........");
 
         findViewById(R.id.signup).setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SignIn.class)));
         RxView.clicks(findViewById(R.id.login))
@@ -50,7 +57,8 @@ public class Login extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Unit unit) {
+                    public void onNext(@NotNull Unit unit) {
+                        progressDialog.show();
                         LoginUser(Objects.requireNonNull(email.getEditText()).getText().toString(), Objects.requireNonNull(password.getEditText()).getText().toString());
                     }
 
@@ -82,13 +90,16 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             startActivity(new Intent(getApplicationContext(), Base_Home.class));
                             Toast.makeText(getApplicationContext(), "Welcome\uD83D\uDE04", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         } else {
                             Log.e("LoginUser", task.getException().getMessage());
                             Toast.makeText(getApplicationContext(), "Email Or Password Error", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
                     });
         } catch (Exception ex) {
             Toast.makeText(getApplicationContext(), " Check Your Connection Network", Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
         }
     }
 

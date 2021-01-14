@@ -17,15 +17,15 @@ public class Post implements Parcelable {
     private String city;
     private String price;
     private String room;
-    private Integer rate;
-    private List<String> images;
+    private int rate;
+    private String images;
     private String description;
     private String home_type;
     private String Num;
 
     public Post() { }
 
-    public Post(String post_owner, String city, String price, String room, Integer rate, List<String> images, String description, String home_type, String num) {
+    public Post(String post_owner, String city, String price, String room, int rate, String images, String description, String home_type, String num) {
         this.post_owner = post_owner;
         this.city = city;
         this.price = price;
@@ -51,7 +51,7 @@ public class Post implements Parcelable {
         price = in.readString();
         room = in.readString();
         rate = in.readInt();
-        in.readList(images,Post.class.getClassLoader());
+        images = in.readString();
         description = in.readString();
         home_type = in.readString();
         Num = in.readString();
@@ -101,19 +101,19 @@ public class Post implements Parcelable {
         this.room = room;
     }
 
-    public Integer getRate() {
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(Integer rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 
-    public List<String> getImages() {
+    public String getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(String images) {
         this.images = images;
     }
 
@@ -155,7 +155,7 @@ public class Post implements Parcelable {
             dest.writeString(price);
             dest.writeString(room);
             dest.writeInt(rate);
-            dest.writeList(images);
+            dest.writeString(images);
             dest.writeString(description);
             dest.writeString(home_type);
             dest.writeString(Num);

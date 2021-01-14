@@ -12,5 +12,6 @@ public class common {
     public static final String Image_Documment_Storage = "Images";
     public static final String Current_Client = Objects.requireNonNull(FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser()).getDisplayName();
     public static final String Current_Client_Gmail = Objects.requireNonNull(FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser()).getEmail();
+    public static final String Current_Client_Phone = Objects.requireNonNull(FireBaseClient.GetInstance().getFirebaseAuth().getCurrentUser()).getPhoneNumber();
 
 }

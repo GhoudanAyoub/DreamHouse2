@@ -1,16 +1,25 @@
 package com.example.dream_house2.ui.NewPost;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.EditText;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,14 +28,26 @@ import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.jakewharton.rxbinding3.view.RxView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -36,28 +57,62 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
 
+@SuppressLint({"SetTextI18n","NonConstantResourceId"})
 public class NewPost extends AppCompatActivity {
 
     private final static int Image_Request = 1;
     private ArrayList<Uri> ImageList2 = new ArrayList<Uri>();
-    private List<String> stringList = new ArrayList<>();
-    private TextInputLayout cityadd, descadd;
+    private EditText cityadd, descadd;
     private SeekBar priceadd, roomadd;
     private RadioGroup radioGroup;
-    private String city, desc, price, room, type;
+    private String  price, room, type;
     private ProgressDialog progressDialog;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private ImageView imageSwitcher;
-    private TextView textView21, textView22;
+    private ImageSwitcher imageSwitcher;
+    private TextView textView21, textView22,number;
     private String phone;
     private Post post;
+    private String strNameList ;
+    final String key = FirebaseDatabase.getInstance().getReference()
+            .child(common.Post_DataBase_Table).push().getKey();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
 
+        _Views();
 
+        findViewById(R.id.imageButton2).setOnClickListener(b -> openImageFile());
+        RxView.clicks(findViewById(R.id.add))
+                .throttleFirst(5, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Unit>() {
+                    @Override
+                    public void onSubscribe(@NotNull Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(@NotNull Unit unit) {
+                        progressDialog.show();
+                        upload(cityadd.getText().toString(), price, room, descadd.getText().toString(), type);
+                    }
+
+                    @Override
+                    public void onError(@NotNull Throwable e) {
+                        Log.e("AddPost", Objects.requireNonNull(e.getMessage()));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        progressDialog.dismiss();
+                    }
+                });
+    }
+
+    private void _Views() {
+        imageSwitcher = findViewById(R.id.pager);
         textView21 = findViewById(R.id.textView21);
         textView22 = findViewById(R.id.textView22);
         cityadd = findViewById(R.id.cityadd);
@@ -65,6 +120,12 @@ public class NewPost extends AppCompatActivity {
         priceadd = findViewById(R.id.priceadd);
         roomadd = findViewById(R.id.roomadd);
         radioGroup = findViewById(R.id.group);
+        number = findViewById(R.id.number);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Uploading ..........");
+
+
         if (getIntent().getStringExtra("num")!=null){
             phone = getIntent().getStringExtra("num");
         }else {
@@ -105,8 +166,6 @@ public class NewPost extends AppCompatActivity {
 
             }
         });
-        city = Objects.requireNonNull(cityadd.getEditText()).getText().toString();
-        desc = Objects.requireNonNull(descadd.getEditText()).getText().toString();
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.all:
@@ -121,48 +180,24 @@ public class NewPost extends AppCompatActivity {
             }
         });
 
+        imageSwitcher.setFactory(() -> {
+            ImageView imageView = new ImageView(getApplicationContext());
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setLayoutParams(new ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+            return imageView;
+        });
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Uploading ..........");
-        imageSwitcher = findViewById(R.id.pager);
 
-        findViewById(R.id.imageButton2).setOnClickListener(b -> openImageFile());
-        RxView.clicks(findViewById(R.id.add))
-                .throttleFirst(5, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Unit>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(Unit unit) {
-                        Toast.makeText(getApplicationContext(), "This will take several times ...", Toast.LENGTH_SHORT).show();
-                        progressDialog.show();
-                        upload(city, price, room, desc, type);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("AddPost", Objects.requireNonNull(e.getMessage()));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        progressDialog.dismiss();
-                    }
-                });
     }
 
 
     private void openImageFile() {
-        //we will pick images
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(intent, Image_Request);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -178,9 +213,9 @@ public class NewPost extends AppCompatActivity {
                         ImageList2.add(imageuri);
                         CurrentImageSelect = CurrentImageSelect + 1;
                     }
-                   // textView.setVisibility(View.VISIBLE);
-                   // textView.setText("You Have Selected " + ImageList.size() + " Pictures");
-                    //Glide.with(this).load(ImageList).into(imageSwitcher);
+                    number.setVisibility(View.VISIBLE);
+                    number.setText(ImageList2.size() + " Pictures Selected ");
+                    //Glide.with(this).load(ImageList2).into(imageSwitcher);
                 }
             }
         }
@@ -188,8 +223,8 @@ public class NewPost extends AppCompatActivity {
 
 
     public void upload(String city, String price, String room, String desc, String type) {
+        number.setText("Please Wait ... If Uploading takes Too much time please the button again ");
 
-        //textView.setText("Please Wait ... If Uploading takes Too much time please the button again ");
         progressDialog.show();
         final StorageReference ImageFolder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
         int uploads = 0;
@@ -199,34 +234,23 @@ public class NewPost extends AppCompatActivity {
 
             imageName.putFile(ImageList2.get(uploads))
                     .addOnFailureListener(Throwable::printStackTrace)
-                    .addOnSuccessListener(taskSnapshot ->
-                            imageName.getDownloadUrl().addOnSuccessListener(uri -> {
-                                String url = String.valueOf(uri);
-                                stringList.add(url);
-                                post = new Post(common.Current_Client, city, price, room, 1, stringList, desc, type,phone);
-                                SaveData(post);
-                            }));
+                    .addOnSuccessListener(taskSnapshot -> imageName.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String url = String.valueOf(uri);
+                        strNameList += url + ",";
+                        post = new Post(common.Current_Client, city, price, room, 1, strNameList, desc, type,phone);
+                        SaveData(post);
+                    }));
+
+
         }
     }
 
 
     private void SaveData(Post post) {
-        FirebaseDatabase.getInstance().getReference().child(common.Post_DataBase_Table)
-                .push()
-                .setValue(post)
-                .addOnFailureListener(Throwable::printStackTrace)
-                .addOnCompleteListener(task -> {
-                    progressDialog.dismiss();
-                    //textView.setText("Image Uploaded Successfully");
-                    ImageList2.clear();
-                });
-        FireBaseClient.GetInstance().getFirebaseFirestore()
-                .collection(common.Post_DataBase_Table)
-                .document()
-                .set(post)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG);
-                    progressDialog.dismiss();
-                });
+        Map<String,Object> map = new HashMap<>();
+        map.put(key,post);
+        FirebaseDatabase.getInstance().getReference()
+                .child(common.Post_DataBase_Table)
+                .updateChildren(map);
     }
 }

@@ -58,14 +58,14 @@ public class FullInfo extends Fragment {
                 .centerCrop()
                 .into(imageViewList);
 
-        if (post.getRate() == null) {
+        if (post.getRate() ==0) {
             fullinfor_rate.setRating(1);
         } else {
             fullinfor_rate.setRating(post.getRate());
         }
-        fullinfo_owner_home.setText(post.getHome_type() + " by the " + post.getPost_owner());
         fullinfo_city.setText(post.getCity());
-        if (post.getHome_type().equals("House")) {
+        if (post.getHome_type()!=null && post.getHome_type().equals("House")) {
+            fullinfo_owner_home.setText(post.getHome_type() + " by the " + post.getPost_owner());
             fullinfo_price.setText(post.getPrice() + " DH");
         } else {
             fullinfo_price.setText(post.getPrice() + " DH per night");

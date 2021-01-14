@@ -44,7 +44,6 @@ public class HomeViewModel extends ViewModel {
     public void GetPosts() {
         FireBaseClient.GetInstance().getFirebaseDatabase()
                 .getReference(common.Post_DataBase_Table)
-                .orderByChild("rate")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
