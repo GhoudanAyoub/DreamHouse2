@@ -6,7 +6,7 @@ import androidx.room.TypeConverters;
 
 import com.example.dream_house2.Modules.Post;
 
-@Database(entities = {Post.class},version = 1)
+@Database(entities = {Post.class},exportSchema = true,version = 1)
 @TypeConverters(Converters.class)
 public abstract class PostDb extends RoomDatabase {
     public abstract PostDoa getDoa();

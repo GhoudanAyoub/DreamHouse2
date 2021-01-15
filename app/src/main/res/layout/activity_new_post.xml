@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:id="@+id/linearLayout5"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/BaseColor"
             android:orientation="vertical"
@@ -21,12 +21,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageSwitcher
+            <com.glide.slider.library.SliderLayout
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/img" />
+                android:background="@drawable/img"
+                android:scaleType="centerCrop" />
         </LinearLayout>
 
         <TextView
@@ -38,9 +38,10 @@
             android:gravity="center"
             android:textColor="#FF0000"
             android:textSize="12sp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/linearLayout6"

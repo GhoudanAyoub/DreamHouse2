@@ -23,7 +23,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <ImageSwitcher
+            <ImageView
                 android:id="@+id/post_imageView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -89,7 +89,8 @@
                             android:layout_height="wrap_content"
                             android:background="@color/colorPrimaryDark"
                             android:max="5"
-                            tools:visibility="visible" />
+                            tools:visibility="visible"
+                            tools:targetApi="lollipop" />
 
                     </TableRow>
 

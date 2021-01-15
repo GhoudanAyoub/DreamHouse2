@@ -53,6 +53,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
         Post post = List.get(position);
         String[] image = post.getImages().split(",");
 
+        Glide
+                .with(context)
+                .load(image[1])
+                .centerCrop()
+                .into(holder.imageSwitcher);
+        /*
+
         holder.imageSwitcher.setFactory(() -> {
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -68,6 +75,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
         holder.imageSwitcher.setOutAnimation(out);
         holder.imageSwitcher.setImageURI(Uri.parse("https:/firebasestorage.googleapis.com/v0/b/dreamhouse-a2d8f.appspot.com/o/ImageFolder%2Fimage%2Fimage%3A76?alt=media&token=8fd9d6db-3414-43de-b59f-c544e79aee42"));
 
+
+         */
         if (post.getRate()==0){
             holder.post_rate.setRating(1);
         }else {
@@ -113,7 +122,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.postAdapterHolder> {
         private TextView post_owner_home,post_city,post_price,post_room;
         private RatingBar post_rate;
         private FloatingActionButton post_floatingActionButton;
-        private ImageSwitcher imageSwitcher;
+        private ImageView imageSwitcher;
         public postAdapterHolder(@NonNull View itemView) {
             super(itemView);
 

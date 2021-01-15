@@ -129,15 +129,19 @@ public class profile extends Fragment {
                 .getReference().child(common.Users_DataBase_Table);
         ImageFolder.child("PDP/")
                 .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
-                .putFile(ImageList).addOnSuccessListener(taskSnapshot ->
+                .putFile(ImageList)
+                .addOnFailureListener(Throwable::printStackTrace)
+                .addOnSuccessListener(taskSnapshot ->
 
                 ImageFolder.child("PDP/")
                         .child(Objects.requireNonNull(ImageList.getLastPathSegment()))
-                        .getDownloadUrl().addOnSuccessListener(uri ->
+                        .getDownloadUrl()
+                        .addOnSuccessListener(uri ->
                         FireBaseClient.GetInstance().getFirebaseFirestore()
                                 .collection(common.Users_DataBase_Table)
                                 .document(u.getName())
                                 .update("image", uri.toString())
+                                .addOnFailureListener(Throwable::printStackTrace)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         progressDialog.dismiss();

@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
         homeViewModel.GetPosts();
         Swipe();
         postAdapter = new Adapter(getActivity(),root);
+        postAdapter.notifyDataSetChanged();
         RecycleViewHome = root.findViewById(R.id.recycleviewhome);
         RecycleViewHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecycleViewHome.setAdapter(postAdapter);
@@ -57,5 +58,11 @@ public class HomeFragment extends Fragment {
             }
         };
         new ItemTouchHelper(touchHelper).attachToRecyclerView(RecycleViewHome);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RecycleViewHome.clearOnChildAttachStateChangeListeners();
     }
 }

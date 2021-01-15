@@ -19,7 +19,7 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="261dp" />
 
-        <ImageView
+        <com.glide.slider.library.SliderLayout
             android:id="@+id/imageViewlist"
             android:layout_width="0dp"
             android:layout_height="0dp"

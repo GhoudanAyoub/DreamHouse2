@@ -24,10 +24,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.dream_house2.API.FireBaseClient;
 import com.example.dream_house2.Modules.Post;
 import com.example.dream_house2.R;
 import com.example.dream_house2.common.common;
+import com.glide.slider.library.SliderLayout;
+import com.glide.slider.library.animations.DescriptionAnimation;
+import com.glide.slider.library.slidertypes.BaseSliderView;
+import com.glide.slider.library.slidertypes.DefaultSliderView;
+import com.glide.slider.library.tricks.ViewPagerEx;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +50,9 @@ import com.jakewharton.rxbinding3.view.RxView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,9 +64,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
+import retrofit2.http.Url;
 
-@SuppressLint({"SetTextI18n","NonConstantResourceId"})
-public class NewPost extends AppCompatActivity {
+@SuppressLint({"SetTextI18n","NonConstantResourceId","CheckResult"})
+public class NewPost extends AppCompatActivity implements BaseSliderView.OnSliderClickListener,
+        ViewPagerEx.OnPageChangeListener{
 
     private final static int Image_Request = 1;
     private ArrayList<Uri> ImageList2 = new ArrayList<Uri>();
@@ -68,11 +78,12 @@ public class NewPost extends AppCompatActivity {
     private String  price, room, type;
     private ProgressDialog progressDialog;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private ImageSwitcher imageSwitcher;
     private TextView textView21, textView22,number;
     private String phone;
     private Post post;
     private String strNameList ;
+    private SliderLayout mDemoSlider;
+    ArrayList<String> listUrl = new ArrayList<>();
     final String key = FirebaseDatabase.getInstance().getReference()
             .child(common.Post_DataBase_Table).push().getKey();
 
@@ -112,7 +123,7 @@ public class NewPost extends AppCompatActivity {
     }
 
     private void _Views() {
-        imageSwitcher = findViewById(R.id.pager);
+        mDemoSlider = findViewById(R.id.pager);
         textView21 = findViewById(R.id.textView21);
         textView22 = findViewById(R.id.textView22);
         cityadd = findViewById(R.id.cityadd);
@@ -180,13 +191,6 @@ public class NewPost extends AppCompatActivity {
             }
         });
 
-        imageSwitcher.setFactory(() -> {
-            ImageView imageView = new ImageView(getApplicationContext());
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setLayoutParams(new ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-            return imageView;
-        });
-
 
     }
 
@@ -212,10 +216,44 @@ public class NewPost extends AppCompatActivity {
                         Uri imageuri = data.getClipData().getItemAt(CurrentImageSelect).getUri();
                         ImageList2.add(imageuri);
                         CurrentImageSelect = CurrentImageSelect + 1;
+                        listUrl.add(imageuri.getLastPathSegment());
+
                     }
                     number.setVisibility(View.VISIBLE);
                     number.setText(ImageList2.size() + " Pictures Selected ");
-                    //Glide.with(this).load(ImageList2).into(imageSwitcher);
+
+                    Glide.with(getApplicationContext())
+                            .load(ImageList2.get(1));
+/*
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.centerCrop();
+                    requestOptions.placeholder(R.drawable.img);
+
+                    for (int i = 0; i < listUrl.size(); i++) {
+                        DefaultSliderView sliderView = new DefaultSliderView(getApplicationContext());
+                        sliderView
+                                .image(listUrl.get(i))
+                                .setRequestOption(requestOptions)
+                                .setProgressBarVisible(true)
+                                .setOnSliderClickListener(this);
+
+                        //add your extra information
+                        sliderView.bundle(new Bundle());
+                        sliderView.getBundle().putString("extra", "House Image");
+                        mDemoSlider.addSlider(sliderView);
+                    }
+
+                    // set Slider Transition Animation
+                    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Default);
+                    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                    mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                    mDemoSlider.setDuration(4000);
+                    mDemoSlider.addOnPageChangeListener(this);
+
+
+
+ */
                 }
             }
         }
@@ -236,9 +274,11 @@ public class NewPost extends AppCompatActivity {
                     .addOnFailureListener(Throwable::printStackTrace)
                     .addOnSuccessListener(taskSnapshot -> imageName.getDownloadUrl().addOnSuccessListener(uri -> {
                         String url = String.valueOf(uri);
-                        strNameList += url + ",";
-                        post = new Post(common.Current_Client, city, price, room, 1, strNameList, desc, type,phone);
-                        SaveData(post);
+                        if (uri!=null) {
+                            strNameList +=","+ url ;
+                            post = new Post(common.Current_Client, city, price, room, 1, strNameList, desc, type, phone);
+                            SaveData(post);
+                        }
                     }));
 
 
@@ -251,6 +291,31 @@ public class NewPost extends AppCompatActivity {
         map.put(key,post);
         FirebaseDatabase.getInstance().getReference()
                 .child(common.Post_DataBase_Table)
-                .updateChildren(map);
+                .updateChildren(map)
+                .addOnFailureListener(Throwable::printStackTrace)
+                .addOnSuccessListener(task -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

@@ -97,4 +97,11 @@ dependencies {
 
     //sdp
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+
+    implementation 'com.nineoldandroids:library:2.4.0'
+
+    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
+
+    implementation "com.github.firdausmaulan:GlideSlider:1.5.1"
 }

@@ -138,7 +138,7 @@ public class gmailTest extends Fragment {
                             startActivity(new Intent(requireActivity(), Base_Home.class));
                         } else {
                             Log.d("createAccount", t.getException().getMessage());
-                            Toast.makeText(getActivity(), "We faced A problem while creating your account\uD83D\uDE14", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), t.getException().getMessage()+"\uD83D\uDE14", Toast.LENGTH_LONG).show();
                         }
                     } catch (Exception e) {
                         Log.d("createAccount", e.getMessage());

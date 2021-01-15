@@ -8,4 +8,12 @@
     <string name="favorite">favorite</string>
     <string name="profile">Profile</string>
     <string name="title_activity_maps">Map</string>
+    <string name="ProblemConnectionWithYourPhone">نواجه مشكل في التواصل مع هاتفكم😔</string>
+    <string name="TooManyRequest">العديد من الطلبات حاول مرة أخرى في وقت لاحق</string>
+    <string name="FillEveryPlace">املأ الفراغ من فضلك!!</string>
+    <string name="VerificationPhoneSucced">تم التحقح من رقمك بنجاح😄</string>
+    <string name="PleaseEntreTheCorrectCode">المرجو ادخال الارقام الاربعة الصحيحة!</string>
+    <string name="sms_disabled">sms disabled</string>
+    <string name="failure_permission">failure permission</string>
+    <string name="putYourPhoneNumber">put Your Phone Number</string>
 </resources>
